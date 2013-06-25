@@ -78,7 +78,6 @@ class MyWindow : Window<MyWindow>
 
     public override void Load(ConfigNode node)
     {
-        base.Load(node);
         //Q: Does the TacLib Save method actually save anything or just assemble the data for saving?
         //Q: Is it designed for per-ship saves?
 
@@ -86,10 +85,15 @@ class MyWindow : Window<MyWindow>
         PluginConfiguration config = PluginConfiguration.CreateForType<TacWindowTest>();
         config.load();
         windowPos = config.GetValue<Rect>("Window Position");
+
+        // If per-ship settings present, load those
+        base.Load(node);
+
     }
 
     public override void Save(ConfigNode node)
     {
+        // Save to per-ship settings
         base.Save(node);
 
         // Save to config.xml
