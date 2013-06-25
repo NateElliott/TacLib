@@ -17,21 +17,19 @@ public class TacWindowTest : PartModule
     public override void OnAwake()
     {
         base.OnAwake();
-        Debug.Log("[Tac Window Test] OnAwake");
         mainWindow.SetVisible(true);
-        ConfigNode config = new ConfigNode();
-        mainWindow.Load(config);
+    }
+
+    public override void OnLoad(ConfigNode node)
+    {
+        base.OnLoad(node);
+        mainWindow.Load(node);
     }
 
     public override void OnSave(ConfigNode node)
     {
         base.OnSave(node);
-
-        Debug.Log("[Tac Window Test] OnSave");
-
-        ConfigNode config = new ConfigNode();
-        config.AddValue("test", 1);
-        mainWindow.Save(config);
+        mainWindow.Save(node);
     }
 
 }
@@ -47,6 +45,7 @@ class MyWindow : Window<MyWindow>
     public MyWindow()
         : base("My Window")
     {
+
     }
 
     protected override void DrawWindow()
@@ -87,8 +86,6 @@ class MyWindow : Window<MyWindow>
         PluginConfiguration config = PluginConfiguration.CreateForType<TacWindowTest>();
         config.load();
         windowPos = config.GetValue<Rect>("Window Position");
-
-        //SetVisible(true);
     }
 
     public override void Save(ConfigNode node)
