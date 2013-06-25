@@ -103,11 +103,22 @@ class MyWindow : Window<MyWindow>
         // Save to per-ship settings
         base.Save(node);
 
+        var configFilename = IOUtils.GetFilePathFor(this.GetType(), "TacWindowTest.cfg");
+        ConfigNode config = new ConfigNode();
+        config.SetValue("Test", "Hello!");
+        config.SetValue("Window X", windowPos.x.ToString());
+        config.SetValue("Window Y", windowPos.y.ToString());
+        config.SetValue("Window W", windowPos.width.ToString());
+        config.SetValue("Window H", windowPos.height.ToString());
+        config.Save(configFilename);
+
+        /*
         // Save to config.xml
         PluginConfiguration config = PluginConfiguration.CreateForType<TacWindowTest>();
         config.SetValue("Window Position", windowPos);
         //config.SetValue("Show Build Menu on StartUp", 1);
         config.save();
+        */
     }
 }
 
