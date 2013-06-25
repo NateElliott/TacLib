@@ -79,6 +79,7 @@ class MyWindow : Window<MyWindow>
 
     public override void Load(ConfigNode node)
     {
+        base.Load(node);
         //Q: Does the TacLib Save method actually save anything or just assemble the data for saving?
         //Q: Is it designed for per-ship saves?
 
@@ -87,38 +88,12 @@ class MyWindow : Window<MyWindow>
         config.load();
         windowPos = config.GetValue<Rect>("Window Position");
 
-        /*
-        windowPos.x = Utilities.GetValue(windowConfig, "x", windowPos.x);
-        windowPos.y = Utilities.GetValue(windowConfig, "y", windowPos.y);
-        windowPos.width = Utilities.GetValue(windowConfig, "width", windowPos.width);
-        windowPos.height = Utilities.GetValue(windowConfig, "height", windowPos.height);
-
-        bool newValue = Utilities.GetValue(windowConfig, "visible", true);
-        */
-
-        SetVisible(true);
+        //SetVisible(true);
     }
 
     public override void Save(ConfigNode node)
     {
         base.Save(node);
-
-        ConfigNode windowConfig;
-        if (node.HasNode("testnode"))
-        {
-            windowConfig = node.GetNode("testnode");
-        }
-        else
-        {
-            windowConfig = new ConfigNode("testnode");
-            node.AddNode(windowConfig);
-        }
-
-        windowConfig.AddValue("visible", true);
-        windowConfig.AddValue("x", windowPos.x);
-        windowConfig.AddValue("y", windowPos.y);
-        windowConfig.AddValue("width", windowPos.width);
-        windowConfig.AddValue("height", windowPos.height);
 
         // Save to config.xml
         PluginConfiguration config = PluginConfiguration.CreateForType<TacWindowTest>();
