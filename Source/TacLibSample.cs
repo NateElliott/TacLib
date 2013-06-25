@@ -82,9 +82,10 @@ class MyWindow : Window<MyWindow>
         //Q: Does the TacLib Save method actually save anything or just assemble the data for saving?
         //Q: Is it designed for per-ship saves?
 
-        //if (node.HasNode("testnode"))
-        //{
-        //ConfigNode windowConfig = node.GetNode("testnode");
+        // Load mod-wide settings from config.xml
+        PluginConfiguration config = PluginConfiguration.CreateForType<TWT>();
+        config.load();
+        windowPos = config.GetValue<Rect>("Window Position");
 
         /*
         windowPos.x = Utilities.GetValue(windowConfig, "x", windowPos.x);
@@ -94,16 +95,8 @@ class MyWindow : Window<MyWindow>
 
         bool newValue = Utilities.GetValue(windowConfig, "visible", true);
         */
-        PluginConfiguration config = PluginConfiguration.CreateForType<TWT>();
-
-        Rect wp = config.GetValue<Rect>("Window Position");
-        windowPos.x = wp.xMin;
-        windowPos.y = wp.y;
-        windowPos.width = wp.width;
-        windowPos.height = wp.height;
 
         SetVisible(true);
-        //}
     }
 
     public override void Save(ConfigNode node)
@@ -127,9 +120,10 @@ class MyWindow : Window<MyWindow>
         windowConfig.AddValue("width", windowPos.width);
         windowConfig.AddValue("height", windowPos.height);
 
+        // Save to config.xml
         PluginConfiguration config = PluginConfiguration.CreateForType<TWT>();
-        config.SetValue("Window Position", new Rect(windowPos.x, windowPos.y, windowPos.width, windowPos.height));
-        config.SetValue("Show Build Menu on StartUp", 1);
+        config.SetValue("Window Position", windowPos);
+        //config.SetValue("Show Build Menu on StartUp", 1);
         config.save();
     }
 }
