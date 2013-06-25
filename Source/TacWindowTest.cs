@@ -105,12 +105,16 @@ class MyWindow : Window<MyWindow>
 
         var configFilename = IOUtils.GetFilePathFor(this.GetType(), "TacWindowTest.cfg");
         ConfigNode config = new ConfigNode();
-        config.SetValue("Test", "Hello!");
-        config.SetValue("Window X", windowPos.x.ToString());
-        config.SetValue("Window Y", windowPos.y.ToString());
-        config.SetValue("Window W", windowPos.width.ToString());
-        config.SetValue("Window H", windowPos.height.ToString());
+        node.SetValue("Test", "Hello!");
+        node.Save(configFilename);
+
+        /*
+        config.SetValue("WindowX", windowPos.x.ToString());
+        config.SetValue("WindowY", windowPos.y.ToString());
+        config.SetValue("WindowW", windowPos.width.ToString());
+        config.SetValue("WindowH", windowPos.height.ToString());
         config.Save(configFilename);
+        */
 
         /*
         // Save to config.xml
