@@ -78,9 +78,6 @@ class MyWindow : Window<MyWindow>
 
     public override void Load(ConfigNode node)
     {
-        //Q: Does the TacLib Save method actually save anything or just assemble the data for saving?
-        //Q: Is it designed for per-ship saves?
-
         // Load base settings from global
         var configFilename = IOUtils.GetFilePathFor(this.GetType(), "TacWindowTest.cfg");
         ConfigNode config = ConfigNode.Load(configFilename);
