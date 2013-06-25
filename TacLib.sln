@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TacLibSample", "Source\TacLibSample.csproj", "{364F74B7-7B22-4685-A6AC-877AB2C195D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TacWindowTest", "Source\TacWindowTest.csproj", "{364F74B7-7B22-4685-A6AC-877AB2C195D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,17 +10,17 @@ using UnityEngine;
 
 // A sample usage of TacLib to create a window that remembers state and position ?per-ship? and features a "Show on startup" option
 
-public class TWT : PartModule
+public class TacWindowTest : PartModule
 {
-    private MyWindow buildWindow = new MyWindow();
+    private MyWindow mainWindow = new MyWindow();
 
     public override void OnAwake()
     {
         base.OnAwake();
         Debug.Log("[Tac Window Test] OnAwake");
-        buildWindow.SetVisible(true);
+        mainWindow.SetVisible(true);
         ConfigNode config = new ConfigNode();
-        buildWindow.Load(config);
+        mainWindow.Load(config);
     }
 
     public override void OnSave(ConfigNode node)
@@ -31,7 +31,7 @@ public class TWT : PartModule
 
         ConfigNode config = new ConfigNode();
         config.AddValue("test", 1);
-        buildWindow.Save(config);
+        mainWindow.Save(config);
     }
 
 }
@@ -83,7 +83,7 @@ class MyWindow : Window<MyWindow>
         //Q: Is it designed for per-ship saves?
 
         // Load mod-wide settings from config.xml
-        PluginConfiguration config = PluginConfiguration.CreateForType<TWT>();
+        PluginConfiguration config = PluginConfiguration.CreateForType<TacWindowTest>();
         config.load();
         windowPos = config.GetValue<Rect>("Window Position");
 
@@ -121,7 +121,7 @@ class MyWindow : Window<MyWindow>
         windowConfig.AddValue("height", windowPos.height);
 
         // Save to config.xml
-        PluginConfiguration config = PluginConfiguration.CreateForType<TWT>();
+        PluginConfiguration config = PluginConfiguration.CreateForType<TacWindowTest>();
         config.SetValue("Window Position", windowPos);
         //config.SetValue("Show Build Menu on StartUp", 1);
         config.save();
