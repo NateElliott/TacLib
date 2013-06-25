@@ -100,21 +100,22 @@ class MyWindow : Window<MyWindow>
 
     public override void Save(ConfigNode node)
     {
-        // Save to per-ship settings
-        base.Save(node);
-
+        // Start with fresh node
         var configFilename = IOUtils.GetFilePathFor(this.GetType(), "TacWindowTest.cfg");
         ConfigNode config = new ConfigNode();
-        node.SetValue("Test", "Hello!");
-        node.Save(configFilename);
 
-        /*
-        config.SetValue("WindowX", windowPos.x.ToString());
-        config.SetValue("WindowY", windowPos.y.ToString());
-        config.SetValue("WindowW", windowPos.width.ToString());
-        config.SetValue("WindowH", windowPos.height.ToString());
+        // Add Window information to node
+        base.Save(config);
+        //base.Save(node);
+
+        // Add custom info
+        config.AddValue("Test", "Hello!");
+
+        // Save global settings
         config.Save(configFilename);
-        */
+
+        // Save Per-Ship settings
+        config.CopyTo(node);
 
         /*
         // Save to config.xml
