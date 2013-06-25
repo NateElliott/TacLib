@@ -81,19 +81,17 @@ class MyWindow : Window<MyWindow>
         //Q: Does the TacLib Save method actually save anything or just assemble the data for saving?
         //Q: Is it designed for per-ship saves?
 
-        // Load mod-wide settings from config.xml
-        PluginConfiguration config = PluginConfiguration.CreateForType<TacWindowTest>();
-        config.load();
+        // Load base settings from global
+        var configFilename = IOUtils.GetFilePathFor(this.GetType(), "TacWindowTest.cfg");
+        ConfigNode config = ConfigNode.Load(configFilename);
 
-        var basepos = config.GetValue<Rect>("Window Position");
-        if (basepos != null)
-        {
-            // if no entry in config.xml, default to class defaults
-            windowPos = config.GetValue<Rect>("Window Position");
-        }
-        // If per-ship settings present, load those
+        // Merge with per-ship settings
+        config.CopyTo(node);
+
+        // Apply settings
         base.Load(node);
 
+        // Make the UI visible
         SetVisible(IsVisible());
 
     }
@@ -116,14 +114,6 @@ class MyWindow : Window<MyWindow>
 
         // Save Per-Ship settings
         config.CopyTo(node);
-
-        /*
-        // Save to config.xml
-        PluginConfiguration config = PluginConfiguration.CreateForType<TacWindowTest>();
-        config.SetValue("Window Position", windowPos);
-        //config.SetValue("Show Build Menu on StartUp", 1);
-        config.save();
-        */
     }
 }
 
