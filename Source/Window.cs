@@ -110,7 +110,7 @@ namespace Tac
                 windowPos.height = Utilities.GetValue(windowConfig, "height", windowPos.height);
 
                 bool newValue = Utilities.GetValue(windowConfig, "visible", visible);
-                SetVisible(newValue);
+                //SetVisible(newValue);
             }
         }
 

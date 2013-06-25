@@ -84,10 +84,17 @@ class MyWindow : Window<MyWindow>
         // Load mod-wide settings from config.xml
         PluginConfiguration config = PluginConfiguration.CreateForType<TacWindowTest>();
         config.load();
-        windowPos = config.GetValue<Rect>("Window Position");
 
+        var basepos = config.GetValue<Rect>("Window Position");
+        if (basepos != null)
+        {
+            // if no entry in config.xml, default to class defaults
+            windowPos = config.GetValue<Rect>("Window Position");
+        }
         // If per-ship settings present, load those
         base.Load(node);
+
+        SetVisible(IsVisible());
 
     }
 
