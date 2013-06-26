@@ -111,7 +111,7 @@ class MyWindow : Window<MyWindow>
             //ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", ShowOnStartup);
             uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", uistatus.ShowOnStartup);
             Debug.Log("[TWT] uistatus: " + uistatus.ShowOnStartup);
-            SetVisible(uistatus.ShowOnStartup);     // Null Reference exception on this line - why???
+            SetVisible(uistatus.ShowOnStartup);     // Null Reference exception on this line but it prints a valid value to the log - why???
         }
 
         // Make the UI visible
