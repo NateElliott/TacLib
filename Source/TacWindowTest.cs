@@ -41,13 +41,11 @@ public class TacWindowTest : PartModule
  */
 class MyWindow : Window<MyWindow>
 {
-    /*
     private class UIStatus
     {
         public bool ShowOnStartup = false;
     }
     private UIStatus uistatus = new UIStatus();
-    */
 
     private bool ShowOnStartup = false;
 
@@ -102,13 +100,14 @@ class MyWindow : Window<MyWindow>
         if (node.HasNode(GetConfigNodeName()))
         {
             var tmp = node.GetNode(GetConfigNodeName());
-            
+
             ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", ShowOnStartup);
-            Debug.Log("[TWT] Start: " + ShowOnStartup.ToString());
+            //uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", uistatus.ShowOnStartup);
         }
 
         // Make the UI visible
         SetVisible(ShowOnStartup);
+        //SetVisible(uistatus.ShowOnStartup);
 
     }
 
@@ -123,6 +122,7 @@ class MyWindow : Window<MyWindow>
 
         // Add custom info to the WINDOW settings
         config.GetNode(GetConfigNodeName()).AddValue("showonstartup", ShowOnStartup);
+        //config.GetNode(GetConfigNodeName()).AddValue("showonstartup", uistatus.ShowOnStartup);
 
         // Save global settings
         config.Save(configFilename);
