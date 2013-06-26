@@ -17,7 +17,6 @@ public class TacWindowTest : PartModule
     public override void OnAwake()
     {
         base.OnAwake();
-        mainWindow.SetVisible(true);
     }
 
     public override void OnLoad(ConfigNode node)
@@ -42,10 +41,20 @@ public class TacWindowTest : PartModule
  */
 class MyWindow : Window<MyWindow>
 {
+    /*
+    private class UIStatus
+    {
+        public bool ShowOnStartup = false;
+    }
+    private UIStatus uistatus = new UIStatus();
+    */
+
+    private bool ShowOnStartup = false;
+
+
     public MyWindow()
         : base("My Window")
     {
-
     }
 
     protected override void DrawWindow()
@@ -88,8 +97,18 @@ class MyWindow : Window<MyWindow>
         // Apply settings
         base.Load(node);
 
+        // Set uistatus.ShowOnStartup according to setting
+        
+        if (node.HasNode(GetConfigNodeName()))
+        {
+            var tmp = node.GetNode(GetConfigNodeName());
+            
+            ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", ShowOnStartup);
+            Debug.Log("[TWT] Start: " + ShowOnStartup.ToString());
+        }
+
         // Make the UI visible
-        SetVisible(IsVisible());
+        SetVisible(ShowOnStartup);
 
     }
 
@@ -101,10 +120,9 @@ class MyWindow : Window<MyWindow>
 
         // Add Window information to node
         base.Save(config);
-        //base.Save(node);
 
-        // Add custom info
-        config.AddValue("Test", "Hello!");
+        // Add custom info to the WINDOW settings
+        config.GetNode(GetConfigNodeName()).AddValue("showonstartup", ShowOnStartup);
 
         // Save global settings
         config.Save(configFilename);
