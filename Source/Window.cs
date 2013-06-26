@@ -67,6 +67,11 @@ namespace Tac
             return visible;
         }
 
+        public string GetConfigNodeName()
+        {
+            return configNodeName;
+        }
+
         public virtual void SetVisible(bool newValue)
         {
             if (newValue)
