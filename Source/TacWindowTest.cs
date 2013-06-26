@@ -17,6 +17,8 @@ public class TacWindowTest : PartModule
     public override void OnAwake()
     {
         base.OnAwake();
+        Debug.Log("[TWT] Awake");
+
     }
 
     public override void OnLoad(ConfigNode node)
@@ -41,18 +43,22 @@ public class TacWindowTest : PartModule
  */
 class MyWindow : Window<MyWindow>
 {
-    private class UIStatus
+    UIStatus uistatus;
+
+    public class UIStatus
     {
         public bool ShowOnStartup = false;
     }
-    private UIStatus uistatus = new UIStatus();
+    //private UIStatus uistatus = new UIStatus();
 
-    private bool ShowOnStartup = false;
+    //private bool ShowOnStartup = false;
 
 
     public MyWindow()
         : base("My Window")
     {
+        this.uistatus = new UIStatus();
+        Debug.Log("[TWT] Constructor");
     }
 
     protected override void DrawWindow()
@@ -85,6 +91,7 @@ class MyWindow : Window<MyWindow>
 
     public override void Load(ConfigNode node)
     {
+        Debug.Log("[TWT] Load");
         // Load base settings from global
         var configFilename = IOUtils.GetFilePathFor(this.GetType(), "TacWindowTest.cfg");
         ConfigNode config = ConfigNode.Load(configFilename);
@@ -101,12 +108,14 @@ class MyWindow : Window<MyWindow>
         {
             var tmp = node.GetNode(GetConfigNodeName());
 
-            ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", ShowOnStartup);
-            //uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", uistatus.ShowOnStartup);
+            //ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", ShowOnStartup);
+            uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", uistatus.ShowOnStartup);
+            Debug.Log("[TWT] uistatus: " + uistatus.ShowOnStartup);
+            SetVisible(uistatus.ShowOnStartup);     // Null Reference exception on this line - why???
         }
 
         // Make the UI visible
-        SetVisible(ShowOnStartup);
+        //SetVisible(ShowOnStartup);
         //SetVisible(uistatus.ShowOnStartup);
 
     }
@@ -121,8 +130,8 @@ class MyWindow : Window<MyWindow>
         base.Save(config);
 
         // Add custom info to the WINDOW settings
-        config.GetNode(GetConfigNodeName()).AddValue("showonstartup", ShowOnStartup);
-        //config.GetNode(GetConfigNodeName()).AddValue("showonstartup", uistatus.ShowOnStartup);
+        //config.GetNode(GetConfigNodeName()).AddValue("showonstartup", ShowOnStartup);
+        config.GetNode(GetConfigNodeName()).AddValue("showonstartup", uistatus.ShowOnStartup);
 
         // Save global settings
         config.Save(configFilename);
