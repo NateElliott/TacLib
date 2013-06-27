@@ -64,21 +64,8 @@ public class TacWindowTest : PartModule
     // Fires ?every frame? while the GUI is active
     public void OnGUI()
     {
-        if (this.vessel == FlightGlobals.ActiveVessel)
-        {
-
-        }
-        else
-        {
-
-        }
     }
     
-    public void onVesselChange()
-    {
-        if (debug) Debug.Log("[TWT] ON VESSEL CHANGE!");
-    }
-
     // =====================================================================================================================================================
     // Flight UI and Action Group Hooks
 
