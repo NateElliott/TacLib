@@ -112,6 +112,8 @@ class MyWindow : Window<MyWindow>
     public class UIStatus
     {
         public bool ShowOnStartup = true;
+        public Vector2 ContentScroller;
+        public bool ShowScroller = false;
     }
     public UIStatus uistatus = new UIStatus();
 
@@ -145,9 +147,38 @@ class MyWindow : Window<MyWindow>
 
     protected override void DrawWindowContents(int windowId)
     {
-        // Put your stuff here
+        // UI is defined here...
         GUILayout.BeginVertical();
+        // Stuff here will be a "Header" and always visible
         GUILayout.Box("Hello World");
+
+        // An example of how the UI works.
+        // Bearing in mind DrawWindowContents executes constantly over and over...
+        // uistatus.ShowScroller is a boolean that defines whether the scroller shows or not
+        // By calling GUILayout.Toggle and passing it the current value of uistatus.ShowScroller, we create a toggle UI item that is in synch with the current state
+        // GUILayout.Toggle returns the current state of the toggle - so setting uistatus.ShowScroller to the return value keeps it in synch with the UI Toggle item
+        // ... the toggle will change state.
+        uistatus.ShowScroller = GUILayout.Toggle(uistatus.ShowScroller, "Show Demo Scoller");
+        // If the toggle is in the ON state
+        if (uistatus.ShowScroller)
+        {
+            // Begin a vertical scroller of unfixed height to hold a block of content.
+            uistatus.ContentScroller = GUILayout.BeginScrollView(uistatus.ContentScroller, alwaysShowHorizontal: false, alwaysShowVertical: true);
+
+            // The "Body" of the scroller
+            GUILayout.Box("Content 1");
+            GUILayout.Box("Content 2");
+            GUILayout.Box("Content 3");
+            GUILayout.Box("Content 4");
+            GUILayout.Box("Content 5");
+            GUILayout.Box("Content 6");
+            GUILayout.Box("Content 7");
+
+            // End the scroller
+            GUILayout.EndScrollView();
+        }
+
+        // Stuff below the scroller behaves like a "Footer"
         uistatus.ShowOnStartup = GUILayout.Toggle(uistatus.ShowOnStartup, "Show on StartUp");
         GUILayout.EndVertical();
     }
