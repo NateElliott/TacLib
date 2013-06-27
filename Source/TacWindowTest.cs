@@ -31,6 +31,7 @@ public class TacWindowTest : PartModule
     {
         base.OnLoad(node);
         if (debug) Debug.Log("[TWT] Load");
+        // Load settings for mainWindow
         mainWindow.Load(node);
     }
 
@@ -66,7 +67,7 @@ class MyWindow : Window<MyWindow>
 {
     public class UIStatus
     {
-        public bool ShowOnStartup = false;
+        public bool ShowOnStartup = true;
     }
     public UIStatus uistatus = new UIStatus();
 
@@ -101,6 +102,7 @@ class MyWindow : Window<MyWindow>
         // Put your stuff here
         GUILayout.BeginVertical();
         GUILayout.Box("Hello World");
+        uistatus.ShowOnStartup = GUILayout.Toggle(uistatus.ShowOnStartup, "Show on StartUp");
         GUILayout.EndVertical();
     }
 
@@ -121,7 +123,7 @@ class MyWindow : Window<MyWindow>
         {
             var tmp = node.GetNode(GetConfigNodeName());
 
-            uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", false);
+            uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", uistatus.ShowOnStartup);
         }
     }
 
