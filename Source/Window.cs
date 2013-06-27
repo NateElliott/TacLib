@@ -42,6 +42,7 @@ namespace Tac
         protected Rect windowPos;
         private bool windowMouseDown;
         private bool visible;
+        private Vessel myVessel = null;
 
         private bool windowResizableX = false;
         private bool windowResizableY = true;
@@ -93,6 +94,11 @@ namespace Tac
             }
 
             this.visible = newValue;
+        }
+
+        public void LimitToVessel(Vessel v)
+        {
+            this.myVessel = v;
         }
 
         public void SetResizeX(bool newValue)
@@ -152,9 +158,21 @@ namespace Tac
             windowConfig.AddValue("height", windowPos.height);
         }
 
+        protected bool allowedToDraw()
+        {
+            if (this.myVessel == null || this.myVessel == FlightGlobals.ActiveVessel)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         protected virtual void DrawWindow()
         {
-            if (visible)
+            if (visible && allowedToDraw())
             {
                 bool paused = false;
                 if (HighLogic.LoadedSceneIsFlight)

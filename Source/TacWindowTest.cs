@@ -27,7 +27,6 @@ public class TacWindowTest : PartModule
 
     private MyWindow mainWindow = new MyWindow();
     
-
     // Fired first - this is at KSP load-time (When the loading bar hits a part with this mod)
     public override void OnAwake()
     {
@@ -57,14 +56,27 @@ public class TacWindowTest : PartModule
     public void Start()
     {
         if (debug) Debug.Log("[TWT] Start");
-        mainWindow.SetResizeX(false);   // Disallow horizontal resizing
+        mainWindow.SetResizeX(false);           // Disallow horizontal resizing
+        mainWindow.LimitToVessel(this.vessel);  // Only show window for this vessel
         mainWindow.SetVisible(mainWindow.uistatus.ShowOnStartup);
     }
 
     // Fires ?every frame? while the GUI is active
     public void OnGUI()
     {
+        if (this.vessel == FlightGlobals.ActiveVessel)
+        {
 
+        }
+        else
+        {
+
+        }
+    }
+    
+    public void onVesselChange()
+    {
+        if (debug) Debug.Log("[TWT] ON VESSEL CHANGE!");
     }
 
     // =====================================================================================================================================================
