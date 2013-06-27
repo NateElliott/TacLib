@@ -12,13 +12,17 @@ using UnityEngine;
 
 public class TacWindowTest : PartModule
 {
+    // Set debug according to setting in part.cfg
+    [KSPField]
+    public bool debug = false;
+
     private MyWindow mainWindow = new MyWindow();
 
     // Fired first - this is at KSP load-time (When the loading bar hits a part with this mod)
     public override void OnAwake()
     {
         base.OnAwake();
-        Debug.Log("[TWT] Awake");
+        if (debug) Debug.Log("[TWT] Awake");
     }
 
     // Fires at multiple times, but mainly when scene loads - node contains scene ConfigNode data (all craft in savegame)
@@ -26,6 +30,7 @@ public class TacWindowTest : PartModule
     public override void OnLoad(ConfigNode node)
     {
         base.OnLoad(node);
+        if (debug) Debug.Log("[TWT] Load");
         mainWindow.Load(node);
     }
 
@@ -33,13 +38,14 @@ public class TacWindowTest : PartModule
     public override void OnSave(ConfigNode node)
     {
         base.OnSave(node);
+        if (debug) Debug.Log("[TWT] Save");
         mainWindow.Save(node);
     }
 
     // Fired once, when a scene starts containing the part
     public void Start()
     {
-        Debug.Log("[TWT] START");
+        if (debug) Debug.Log("[TWT] Start");
         mainWindow.SetVisible(mainWindow.uistatus.ShowOnStartup);
     }
 
@@ -68,7 +74,6 @@ class MyWindow : Window<MyWindow>
     public MyWindow()
         : base("My Window")
     {
-        Debug.Log("[TWT] Constructor");
     }
 
     protected override void DrawWindow()
@@ -101,7 +106,6 @@ class MyWindow : Window<MyWindow>
 
     public override void Load(ConfigNode node)
     {
-        Debug.Log("[TWT] Load");
         // Load base settings from global
         var configFilename = IOUtils.GetFilePathFor(this.GetType(), "TacWindowTest.cfg");
         ConfigNode config = ConfigNode.Load(configFilename);
