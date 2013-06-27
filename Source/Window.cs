@@ -43,6 +43,9 @@ namespace Tac
         private bool windowMouseDown;
         private bool visible;
 
+        private bool windowResizableX = false;
+        private bool windowResizableY = true;
+        
         protected GUIStyle closeButtonStyle;
         private GUIStyle resizeStyle;
         private GUIContent resizeContent;
@@ -90,6 +93,16 @@ namespace Tac
             }
 
             this.visible = newValue;
+        }
+
+        public void SetResizeX(bool newValue)
+        {
+            windowResizableX = newValue;
+        }
+
+        public void SetResizeY(bool newValue)
+        {
+            windowResizableY = newValue;
         }
 
         public void ToggleVisible()
@@ -216,8 +229,14 @@ namespace Tac
                 }
                 else if (theEvent.type == EventType.MouseDrag && windowMouseDown && theEvent.button == 0)
                 {
-                    windowPos.width += theEvent.delta.x;
-                    windowPos.height += theEvent.delta.y;
+                    if (windowResizableX)
+                    {
+                        windowPos.width += theEvent.delta.x;
+                    }
+                    if (windowResizableY)
+                    {
+                        windowPos.height += theEvent.delta.y;
+                    }
                     theEvent.Use();
                 }
                 else if (theEvent.type == EventType.MouseUp && windowMouseDown && theEvent.button == 0)

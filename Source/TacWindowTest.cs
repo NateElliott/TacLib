@@ -26,6 +26,7 @@ public class TacWindowTest : PartModule
     public bool debug = false;
 
     private MyWindow mainWindow = new MyWindow();
+    
 
     // Fired first - this is at KSP load-time (When the loading bar hits a part with this mod)
     public override void OnAwake()
@@ -56,6 +57,7 @@ public class TacWindowTest : PartModule
     public void Start()
     {
         if (debug) Debug.Log("[TWT] Start");
+        mainWindow.SetResizeX(false);   // Disallow horizontal resizing
         mainWindow.SetVisible(mainWindow.uistatus.ShowOnStartup);
     }
 
