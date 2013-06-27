@@ -55,6 +55,40 @@ public class TacWindowTest : PartModule
     {
 
     }
+
+    // =====================================================================================================================================================
+    // Flight UI and Action Group Hooks
+
+    [KSPEvent(guiActive = true, guiName = "Show Main Menu", active = true)]
+    public void ShowMainMenu()
+    {
+        mainWindow.SetVisible(true);
+    }
+
+    [KSPEvent(guiActive = true, guiName = "Hide Main Menu", active = false)]
+    public void HideMainMenu()
+    {
+        mainWindow.SetVisible(false);
+    }
+
+    [KSPAction("Show Build Menu")]
+    public void ShowMainMenuAction(KSPActionParam param)
+    {
+        ShowMainMenu();
+    }
+
+    [KSPAction("Hide Build Menu")]
+    public void HideMainMenuAction(KSPActionParam param)
+    {
+        HideMainMenu();
+    }
+
+    public override void OnUpdate()
+    {
+        Events["ShowMainMenu"].active = !mainWindow.IsVisible();
+        Events["HideMainMenu"].active = mainWindow.IsVisible();
+    }
+
 }
 
 /**
