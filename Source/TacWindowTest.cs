@@ -14,25 +14,40 @@ public class TacWindowTest : PartModule
 {
     private MyWindow mainWindow = new MyWindow();
 
+    // Fired first - this is at KSP load-time (When the loading bar hits a part with this mod)
     public override void OnAwake()
     {
         base.OnAwake();
         Debug.Log("[TWT] Awake");
-
     }
 
+    // Fires at multiple times, but mainly when scene loads - node contains scene ConfigNode data (all craft in savegame)
+    // IMPORTANT! This also fires at KSP load-time. DO NOT try and start the GUI here.
     public override void OnLoad(ConfigNode node)
     {
         base.OnLoad(node);
         mainWindow.Load(node);
     }
 
+    // Fired when scene containing part Saves (Ends)
     public override void OnSave(ConfigNode node)
     {
         base.OnSave(node);
         mainWindow.Save(node);
     }
 
+    // Fired once, when a scene starts containing the part
+    public void Start()
+    {
+        Debug.Log("[TWT] START");
+        mainWindow.SetVisible(mainWindow.uistatus.ShowOnStartup);
+    }
+
+    // Fires ?every frame? while the GUI is active
+    public void OnGUI()
+    {
+
+    }
 }
 
 /**
@@ -43,21 +58,16 @@ public class TacWindowTest : PartModule
  */
 class MyWindow : Window<MyWindow>
 {
-    UIStatus uistatus;
-
     public class UIStatus
     {
         public bool ShowOnStartup = false;
     }
-    //private UIStatus uistatus = new UIStatus();
-
-    //private bool ShowOnStartup = false;
+    public UIStatus uistatus = new UIStatus();
 
 
     public MyWindow()
         : base("My Window")
     {
-        this.uistatus = new UIStatus();
         Debug.Log("[TWT] Constructor");
     }
 
@@ -103,21 +113,12 @@ class MyWindow : Window<MyWindow>
         base.Load(node);
 
         // Set uistatus.ShowOnStartup according to setting
-        
         if (node.HasNode(GetConfigNodeName()))
         {
             var tmp = node.GetNode(GetConfigNodeName());
 
-            //ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", ShowOnStartup);
-            uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", uistatus.ShowOnStartup);
-            Debug.Log("[TWT] uistatus: " + uistatus.ShowOnStartup);
-            SetVisible(uistatus.ShowOnStartup);     // Null Reference exception on this line but it prints a valid value to the log - why???
+            uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", false);
         }
-
-        // Make the UI visible
-        //SetVisible(ShowOnStartup);
-        //SetVisible(uistatus.ShowOnStartup);
-
     }
 
     public override void Save(ConfigNode node)
@@ -130,7 +131,6 @@ class MyWindow : Window<MyWindow>
         base.Save(config);
 
         // Add custom info to the WINDOW settings
-        //config.GetNode(GetConfigNodeName()).AddValue("showonstartup", ShowOnStartup);
         config.GetNode(GetConfigNodeName()).AddValue("showonstartup", uistatus.ShowOnStartup);
 
         // Save global settings
