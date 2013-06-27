@@ -75,6 +75,8 @@ class MyWindow : Window<MyWindow>
     public MyWindow()
         : base("My Window")
     {
+        // Force default size
+        windowPos = new Rect(60, 60, 400, 400);
     }
 
     protected override void DrawWindow()
@@ -113,8 +115,8 @@ class MyWindow : Window<MyWindow>
         ConfigNode config = ConfigNode.Load(configFilename);
 
         // Merge with per-ship settings
-        config.CopyTo(node);
-
+        if (config != null) config.CopyTo(node);
+ 
         // Apply settings
         base.Load(node);
 
