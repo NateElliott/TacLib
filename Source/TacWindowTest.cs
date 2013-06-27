@@ -71,13 +71,13 @@ public class TacWindowTest : PartModule
         mainWindow.SetVisible(false);
     }
 
-    [KSPAction("Show Build Menu")]
+    [KSPAction("Show Main Menu")]
     public void ShowMainMenuAction(KSPActionParam param)
     {
         ShowMainMenu();
     }
 
-    [KSPAction("Hide Build Menu")]
+    [KSPAction("Hide Main Menu")]
     public void HideMainMenuAction(KSPActionParam param)
     {
         HideMainMenu();
