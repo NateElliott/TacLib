@@ -10,6 +10,15 @@ using UnityEngine;
 
 // A sample usage of TacLib to create a window that remembers state and position ?per-ship? and features a "Show on startup" option
 
+// To use: Compile to create the DLL and add the following to end of any part, before the final }
+/*
+MODULE
+{
+	name = TacWindowTest
+	debug = True
+}
+*/
+
 public class TacWindowTest : PartModule
 {
     // Set debug according to setting in part.cfg
