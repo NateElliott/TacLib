@@ -45,3 +45,5 @@ MODULE
 5) Hit "Build" in Visual Studio, if you did step 3b right, the DLL should appear in GameData\TacWindowTest\Plugins
 
 6) Start KSP, build a ship using your modified part, and launch - the window should appear.
+
+7) If so, congratulations - start editing TacWindowTest and have a play!
