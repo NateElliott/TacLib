@@ -46,4 +46,4 @@ MODULE
 
 6) Start KSP, build a ship using your modified part, and launch - the window should appear.
 
-7) If so, congratulations - start editing TacWindowTest and have a play!
+7) If so, congratulations - start editing TacWindowTest.cs and have a play!
