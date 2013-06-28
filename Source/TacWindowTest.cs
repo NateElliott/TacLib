@@ -109,11 +109,13 @@ public class TacWindowTest : PartModule
  */
 class MyWindow : Window<MyWindow>
 {
+    // Use this class to store the current state of the UI
     public class UIStatus
     {
-        public bool ShowOnStartup = true;
-        public Vector2 ContentScroller;
-        public bool ShowScroller = false;
+        public bool ShowOnStartup = true;   // A bit of an exception - this value is stored beteen sessions in config files.
+
+        public Vector2 ContentScroller;     // Demo variable - can be removed. Holds the current position of the content scroller
+        public bool ShowScroller = false;   // Demo variable - can be removed. Holds state of Show Scroller toggle
     }
     public UIStatus uistatus = new UIStatus();
 
