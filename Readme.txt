@@ -5,6 +5,17 @@ For use with the Kerbal Space Program, http://kerbalspaceprogram.com/
 This library is made available under the Attribution-NonCommercial-ShareAlike 3.0 (CC BY-NC-SA
 3.0) creative commons license. See the LICENSE.txt file.
 
+Features:
+* A basic template that lets you start coding KSP PartModule UIs with ease.
+* Demonstrates adding an option to the right-click context menu of a part, and how to make it toggle on/off.
+* Demo menu item opens a window to serve as the GUI for your mod.
+* Window position and size stored on two levels: per-mod and per-craft (within a savegame).
+* This means new craft use the same position as was used in the last save, but each craft in a save remembers its own position.
+* Window shown/hidden appropriately. Disappears during Escape menu, in editor, when you switch to another craft etc.
+* Cycling through craft in a game with [ and ] opens and closes the window as appropriate (Multiple copies of same mod GUI with different states).
+* Demonstrations to help you get your head around the quirky way KSP UIs work.
+* Window can be resized, and can be limited to horizontal or vertical only resizing.
+
 Usage:
 1) Set up Visual Studio as per the instructions here:
 http://wiki.kerbalspaceprogram.com/wiki/Plugins
