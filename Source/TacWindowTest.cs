@@ -59,6 +59,8 @@ public class TacWindowTest : PartModule
         mainWindow.SetResizeX(false);           // Disallow horizontal resizing
         mainWindow.LimitToVessel(this.vessel);  // Only show window for this vessel
         mainWindow.SetVisible(mainWindow.uistatus.ShowOnStartup);
+        // mainwindow is now passed all info it need to set up, so fire Start()
+        mainWindow.Start();
     }
 
     // Fires ?every frame? while the GUI is active
@@ -114,17 +116,24 @@ class MyWindow : Window<MyWindow>
     {
         public bool ShowOnStartup = true;   // A bit of an exception - this value is stored beteen sessions in config files.
 
-        public Vector2 ContentScroller;     // Demo variable - can be removed. Holds the current position of the content scroller
-        public bool ShowScroller = false;   // Demo variable - can be removed. Holds state of Show Scroller toggle
+        public Vector2 ContentScroller;         // Demo variable - can be removed. Holds the current position of the content scroller
+        public bool ShowScroller = false;       // Demo variable - can be removed. Holds state of Show Scroller toggle
+        public bool ShowSecondWindow = false;   // Demo variable - can be removed. Holds state of Show Second Window toggle
     }
     public UIStatus uistatus = new UIStatus();
-
+    public SecondWindow secondWindow = new SecondWindow();
 
     public MyWindow()
         : base("My Window")
     {
         // Force default size
         windowPos = new Rect(60, 60, 400, 400);
+    }
+
+    // Called when UI is starting
+    public void Start()
+    {
+        secondWindow.LimitToVessel(this.GetVessel());
     }
 
     protected override void DrawWindow()
@@ -147,6 +156,8 @@ class MyWindow : Window<MyWindow>
         // Initialize your styles here (optional)
     }
 
+    // Called every time the GUI paints (Often!)
+    // All the code in here is example code and can be discarded.
     protected override void DrawWindowContents(int windowId)
     {
         // UI is defined here...
@@ -175,6 +186,27 @@ class MyWindow : Window<MyWindow>
             GUILayout.Box("Content 5");
             GUILayout.Box("Content 6");
             GUILayout.Box("Content 7");
+            // Another technique for toggles - use this method to execute code only when the state changes
+            if (GUILayout.Toggle(uistatus.ShowSecondWindow, "Show Second Window"))
+            {
+                if (!uistatus.ShowSecondWindow)
+                {
+                    uistatus.ShowSecondWindow = true;
+                    // Open window
+                    secondWindow.SetVisible(true);
+                    //secondWindow.LimitToVessel(this.GetVessel());
+                }
+            }
+            else
+            {
+                if (uistatus.ShowSecondWindow)
+                {
+                    uistatus.ShowSecondWindow = false;
+                    // Close window
+                    // ToDo: save window postion here?
+                    secondWindow.SetVisible(false);
+                }
+            }
 
             // End the scroller
             GUILayout.EndScrollView();
@@ -226,3 +258,21 @@ class MyWindow : Window<MyWindow>
     }
 }
 
+// Derive a second window from the base class - we do not need all those extra extensions for this
+class SecondWindow : Window<SecondWindow>
+{
+    public SecondWindow()
+        : base("Second Window")
+    {
+        // Force default size
+        windowPos = new Rect(60, 60, 400, 400);
+        this.LimitToVessel(base.GetVessel());
+    }
+
+    protected override void DrawWindowContents(int windowId)
+    {
+        GUILayout.BeginVertical();
+        GUILayout.Box("Second Window");
+        GUILayout.EndVertical();
+    }
+}

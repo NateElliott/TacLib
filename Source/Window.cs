@@ -101,6 +101,11 @@ namespace Tac
             this.myVessel = v;
         }
 
+        public Vessel GetVessel()
+        {
+            return myVessel;
+        }
+
         public void SetResizeX(bool newValue)
         {
             windowResizableX = newValue;
