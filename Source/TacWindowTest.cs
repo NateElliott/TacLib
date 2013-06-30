@@ -31,7 +31,7 @@ public class TacWindowTest : PartModule
     public override void OnAwake()
     {
         base.OnAwake();
-        if (debug) Debug.Log("[TWT] Awake");
+        if (debug) Debug.Log("[TWT] OnAwake fired");
     }
 
     // Fires at multiple times, but mainly when scene loads - node contains scene ConfigNode data (all craft in savegame)
@@ -39,30 +39,35 @@ public class TacWindowTest : PartModule
     public override void OnLoad(ConfigNode node)
     {
         base.OnLoad(node);
-        mainWindow = new MyWindow("My Window", this.vessel);
 
-        if (debug) Debug.Log("[TWT] Load");
-        // Load settings for mainWindow
-        mainWindow.Load(node);
+        if (debug) Debug.Log("[TWT] OnLoad fired");
+        // Only fire Load when we are loading a scene, not loading KSP.
+        if (HighLogic.LoadedSceneIsFlight)
+        {
+            // Load settings for mainWindow
+            mainWindow = new MyWindow("My Window", this.vessel);
+            mainWindow.Load(node);
+        }
     }
 
     // Fired when scene containing part Saves (Ends)
     public override void OnSave(ConfigNode node)
     {
         base.OnSave(node);
-        if (debug) Debug.Log("[TWT] Save");
+        if (debug) Debug.Log("[TWT] OnSave fired");
         mainWindow.Save(node);
     }
 
     // Fired once, when a scene starts containing the part
     public void Start()
     {
-        if (debug) Debug.Log("[TWT] Start");
+        if (debug) Debug.Log("[TWT] Start fired");
         mainWindow.SetResizeX(false);           // Disallow horizontal resizing
         mainWindow.SetVisible(mainWindow.uistatus.ShowOnStartup);
         // mainwindow is now passed all info it need to set up, so fire Start()
         mainWindow.Start();
     }
+
 
     // Fires ?every frame? while the GUI is active
     public void OnGUI()

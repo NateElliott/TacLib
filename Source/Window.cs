@@ -53,6 +53,7 @@ namespace Tac
 
         protected Window(string windowTitle, Vessel v = null)
         {
+            this.myVessel = v;
             this.windowTitle = windowTitle;
             this.windowId = windowTitle.GetHashCode() + new System.Random().Next(65536);
 
