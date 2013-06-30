@@ -108,6 +108,12 @@ public class TacWindowTest : PartModule
         Events["HideMainMenu"].active = mainWindow.IsVisible();
     }
 
+    // =====================================================================================================================================================
+    public void DoSomething()
+    {
+        Debug.Log("HERE");
+    }
+
 }
 
 /**
@@ -193,6 +199,10 @@ class MyWindow : Window<MyWindow>
             GUILayout.Box("Content 5");
             GUILayout.Box("Content 6");
             GUILayout.Box("Content 7");
+            if (GUILayout.Button("Test"))
+            {
+                // How do I get this button to call DoSomething() ?
+            }
             // Another technique for toggles - use this method to execute code only when the state changes
             if (GUILayout.Toggle(uistatus.ShowSecondWindow, "Show Second Window"))
             {
