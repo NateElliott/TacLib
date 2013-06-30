@@ -51,7 +51,7 @@ namespace Tac
         private GUIStyle resizeStyle;
         private GUIContent resizeContent;
 
-        protected Window(string windowTitle)
+        protected Window(string windowTitle, Vessel v = null)
         {
             this.windowTitle = windowTitle;
             this.windowId = windowTitle.GetHashCode() + new System.Random().Next(65536);
@@ -94,11 +94,6 @@ namespace Tac
             }
 
             this.visible = newValue;
-        }
-
-        public void LimitToVessel(Vessel v)
-        {
-            this.myVessel = v;
         }
 
         public Vessel GetVessel()

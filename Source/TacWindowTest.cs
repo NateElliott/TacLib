@@ -25,7 +25,7 @@ public class TacWindowTest : PartModule
     [KSPField]
     public bool debug = false;
 
-    private MyWindow mainWindow = new MyWindow();
+    private MyWindow mainWindow;
     
     // Fired first - this is at KSP load-time (When the loading bar hits a part with this mod)
     public override void OnAwake()
@@ -39,6 +39,8 @@ public class TacWindowTest : PartModule
     public override void OnLoad(ConfigNode node)
     {
         base.OnLoad(node);
+        mainWindow = new MyWindow("My Window", this.vessel);
+
         if (debug) Debug.Log("[TWT] Load");
         // Load settings for mainWindow
         mainWindow.Load(node);
@@ -57,7 +59,6 @@ public class TacWindowTest : PartModule
     {
         if (debug) Debug.Log("[TWT] Start");
         mainWindow.SetResizeX(false);           // Disallow horizontal resizing
-        mainWindow.LimitToVessel(this.vessel);  // Only show window for this vessel
         mainWindow.SetVisible(mainWindow.uistatus.ShowOnStartup);
         // mainwindow is now passed all info it need to set up, so fire Start()
         mainWindow.Start();
@@ -121,10 +122,10 @@ class MyWindow : Window<MyWindow>
         public bool ShowSecondWindow = false;   // Demo variable - can be removed. Holds state of Show Second Window toggle
     }
     public UIStatus uistatus = new UIStatus();
-    public SecondWindow secondWindow = new SecondWindow();
+    public SecondWindow secondWindow;
 
-    public MyWindow()
-        : base("My Window")
+    public MyWindow(string name, Vessel v = null)
+        : base(name, v)
     {
         // Force default size
         windowPos = new Rect(60, 60, 400, 400);
@@ -133,7 +134,7 @@ class MyWindow : Window<MyWindow>
     // Called when UI is starting
     public void Start()
     {
-        secondWindow.LimitToVessel(this.GetVessel());
+        
     }
 
     protected override void DrawWindow()
@@ -236,6 +237,8 @@ class MyWindow : Window<MyWindow>
 
             uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", uistatus.ShowOnStartup);
         }
+        secondWindow = new SecondWindow("Second Window", this.GetVessel());
+
     }
 
     public override void Save(ConfigNode node)
@@ -261,12 +264,11 @@ class MyWindow : Window<MyWindow>
 // Derive a second window from the base class - we do not need all those extra extensions for this
 class SecondWindow : Window<SecondWindow>
 {
-    public SecondWindow()
-        : base("Second Window")
+    public SecondWindow(string name, Vessel v = null)
+        : base(name, v)
     {
         // Force default size
         windowPos = new Rect(60, 60, 400, 400);
-        this.LimitToVessel(base.GetVessel());
     }
 
     protected override void DrawWindowContents(int windowId)
