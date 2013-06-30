@@ -71,7 +71,7 @@ namespace Tac
             return visible;
         }
 
-        public string GetConfigNodeName()
+        protected string GetConfigNodeName()
         {
             return configNodeName;
         }
