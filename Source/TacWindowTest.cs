@@ -45,6 +45,7 @@ public class TacWindowTest : PartModule
         if (HighLogic.LoadedSceneIsFlight)
         {
             // Load settings for mainWindow
+            // Second parameter is used to limit this window to only show for the vessel that created it
             mainWindow = new MyWindow("My Window", this.vessel);
             mainWindow.Load(node);
         }
