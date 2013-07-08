@@ -208,8 +208,8 @@ class MyWindow : Window<MyWindow>
             // The "Body" of the scroller
             GUILayout.Box("Some resources on this craft:");
             GUILayout.Box("Electric Charge: " + Utilities.GetConnectedResources(this.myPartModule.part, "ElectricCharge")[0].amount.ToString());
-            //GUILayout.Box("Liquid Fuel: " + Utilities.GetConnectedResources(this.myPartModule.part, "LiquidFuel")[0].amount.ToString());
-            //GUILayout.Box("Jet Fuel: " + Utilities.GetConnectedResources(this.myPartModule.part, "JetFuel")[0].amount.ToString());
+            GUILayout.Box("Liquid Fuel: " + Utilities.GetConnectedResources(this.myPartModule.part, "LiquidFuel")[0].amount.ToString());
+            GUILayout.Box("NonExistantResource: " + Utilities.GetConnectedResources(this.myPartModule.part, "NonExistantResource")[0].amount.ToString());
             GUILayout.Box("More content...");
             GUILayout.Box("More content...");
             GUILayout.Box("More content... scroll down for more tests ...");
