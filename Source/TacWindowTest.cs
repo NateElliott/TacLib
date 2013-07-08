@@ -198,7 +198,7 @@ class MyWindow : Window<MyWindow>
         // By calling GUILayout.Toggle and passing it the current value of uistatus.ShowScroller, we create a toggle UI item that is in synch with the current state
         // GUILayout.Toggle returns the current state of the toggle - so setting uistatus.ShowScroller to the return value keeps it in synch with the UI Toggle item
         // ... the toggle will change state.
-        uistatus.ShowScroller = GUILayout.Toggle(uistatus.ShowScroller, "Show Demo Scoller");
+        uistatus.ShowScroller = GUILayout.Toggle(uistatus.ShowScroller, "Show scroller containing resource list");
         // If the toggle is in the ON state
         if (uistatus.ShowScroller)
         {
@@ -206,46 +206,43 @@ class MyWindow : Window<MyWindow>
             uistatus.ContentScroller = GUILayout.BeginScrollView(uistatus.ContentScroller, alwaysShowHorizontal: false, alwaysShowVertical: true);
 
             // The "Body" of the scroller
-            GUILayout.Box("Some resources on this craft:");
-            GUILayout.Box("Electric Charge: " + Utilities.GetConnectedResources(this.myPartModule.part, "ElectricCharge")[0].amount.ToString());
-            GUILayout.Box("Liquid Fuel: " + Utilities.GetConnectedResources(this.myPartModule.part, "LiquidFuel")[0].amount.ToString());
-            GUILayout.Box("NonExistantResource: " + Utilities.GetConnectedResources(this.myPartModule.part, "NonExistantResource")[0].amount.ToString());
-            GUILayout.Box("More content...");
-            GUILayout.Box("More content...");
-            GUILayout.Box("More content... scroll down for more tests ...");
-            GUILayout.Box("More content...");
-            GUILayout.Box("More content...");
-            GUILayout.Box("More content...");
-            if (GUILayout.Button("Test"))
+            GUILayout.Box("Craft access to all known resources:");
+            foreach (PartResourceDefinition def in PartResourceLibrary.Instance.resourceDefinitions)
             {
-                // How do I get this button to call DoSomething() ?
-            }
-            // Another technique for toggles - use this method to execute code only when the state changes
-            if (GUILayout.Toggle(uistatus.ShowSecondWindow, "Show Second Window"))
-            {
-                if (!uistatus.ShowSecondWindow)
-                {
-                    uistatus.ShowSecondWindow = true;
-                    // Open window
-                    secondWindow.SetVisible(true);
-                    //secondWindow.LimitToVessel(this.GetVessel());
-                }
-            }
-            else
-            {
-                if (uistatus.ShowSecondWindow)
-                {
-                    uistatus.ShowSecondWindow = false;
-                    // Close window
-                    // ToDo: save window postion here?
-                    secondWindow.SetVisible(false);
-                }
+                GUILayout.Box(def.name + ": " + Utilities.GetConnectedResources(this.myPartModule.part, def.name)[0].amount.ToString());
             }
 
+            GUILayout.Box("And one that isn't - NonExistantResource: " + Utilities.GetConnectedResources(this.myPartModule.part, "NonExistantResource")[0].amount.ToString());
             // End the scroller
             GUILayout.EndScrollView();
         }
 
+        // Another technique for toggles - use this method to execute code only when the state changes
+        if (GUILayout.Toggle(uistatus.ShowSecondWindow, "Show Second Window"))
+        {
+            if (!uistatus.ShowSecondWindow)
+            {
+                uistatus.ShowSecondWindow = true;
+                // Open window
+                secondWindow.SetVisible(true);
+                //secondWindow.LimitToVessel(this.GetVessel());
+            }
+        }
+        else
+        {
+            if (uistatus.ShowSecondWindow)
+            {
+                uistatus.ShowSecondWindow = false;
+                // Close window
+                // ToDo: save window postion here?
+                secondWindow.SetVisible(false);
+            }
+        }
+
+        if (GUILayout.Button("Test"))
+        {
+            // How do I get this button to call DoSomething() ?
+        }
         // Stuff below the scroller behaves like a "Footer"
         uistatus.ShowOnStartup = GUILayout.Toggle(uistatus.ShowOnStartup, "Show on StartUp");
         GUILayout.EndVertical();
