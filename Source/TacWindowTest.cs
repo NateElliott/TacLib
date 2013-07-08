@@ -46,7 +46,9 @@ public class TacWindowTest : PartModule
         {
             // Load settings for mainWindow
             // Second parameter is used to limit this window to only show for the vessel that created it
-            mainWindow = new MyWindow("My Window", this.vessel);
+            // mainWindow = new MyWindow("My Window", this.vessel);
+            mainWindow = new MyWindow("My Window", this);
+            
             mainWindow.Load(node);
         }
     }
@@ -136,8 +138,8 @@ class MyWindow : Window<MyWindow>
     public UIStatus uistatus = new UIStatus();
     public SecondWindow secondWindow;
 
-    public MyWindow(string name, Vessel v = null)
-        : base(name, v)
+    public MyWindow(string name, PartModule p = null)
+        : base(name, p)
     {
         // Force default size
         windowPos = new Rect(60, 60, 400, 400);
@@ -148,6 +150,14 @@ class MyWindow : Window<MyWindow>
     {
         
     }
+
+    /*
+    // Allows a window to have a concept of an owning part
+    public void SetPart(Part p)
+    {
+        this.thisPart = p;
+    }
+    */
 
     protected override void DrawWindow()
     {
@@ -253,7 +263,8 @@ class MyWindow : Window<MyWindow>
 
             uistatus.ShowOnStartup = Utilities.GetValue(tmp, "showonstartup", uistatus.ShowOnStartup);
         }
-        secondWindow = new SecondWindow("Second Window", this.GetVessel());
+        //secondWindow = new SecondWindow("Second Window", this.GetVessel());
+        secondWindow = new SecondWindow("Second Window", this.myPartModule);
 
     }
 
@@ -280,8 +291,8 @@ class MyWindow : Window<MyWindow>
 // Derive a second window from the base class - we do not need all those extra extensions for this
 class SecondWindow : Window<SecondWindow>
 {
-    public SecondWindow(string name, Vessel v = null)
-        : base(name, v)
+    public SecondWindow(string name, PartModule p = null)
+        : base(name, p)
     {
         // Force default size
         windowPos = new Rect(60, 60, 400, 400);

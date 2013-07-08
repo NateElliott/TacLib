@@ -42,7 +42,7 @@ namespace Tac
         protected Rect windowPos;
         private bool windowMouseDown;
         private bool visible;
-        private Vessel myVessel = null;
+        protected PartModule myPartModule;
 
         private bool windowResizableX = false;
         private bool windowResizableY = true;
@@ -51,9 +51,10 @@ namespace Tac
         private GUIStyle resizeStyle;
         private GUIContent resizeContent;
 
-        protected Window(string windowTitle, Vessel v = null)
+        protected Window(string windowTitle, PartModule p = null)
         {
-            this.myVessel = v;
+            this.myPartModule = p;
+
             this.windowTitle = windowTitle;
             this.windowId = windowTitle.GetHashCode() + new System.Random().Next(65536);
 
@@ -95,11 +96,6 @@ namespace Tac
             }
 
             this.visible = newValue;
-        }
-
-        public Vessel GetVessel()
-        {
-            return myVessel;
         }
 
         public void SetResizeX(bool newValue)
@@ -161,7 +157,7 @@ namespace Tac
 
         protected bool allowedToDraw()
         {
-            if (this.myVessel == null || this.myVessel == FlightGlobals.ActiveVessel)
+            if (this.myPartModule.vessel == null || this.myPartModule.vessel == FlightGlobals.ActiveVessel)
             {
                 return true;
             }
