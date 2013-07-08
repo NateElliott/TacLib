@@ -73,7 +73,15 @@ public class TacWindowTest : PartModule
         mainWindow.SetResizeX(false);           // Disallow horizontal resizing
         mainWindow.SetVisible(mainWindow.uistatus.ShowOnStartup);
         // mainwindow is now passed all info it need to set up, so fire Start()
-        mainWindow.Start();
+        //MyWindow.LogHandler myLogger = new MyWindow.LogHandler(Logger);
+        mainWindow.myHandler = new MyWindow.LogHandler(Logger);
+    }
+
+    //public delegate void BuildHandler(string message);
+
+    static void Logger(string s)
+    {
+        Debug.Log(s);
     }
 
 
@@ -131,6 +139,8 @@ public class TacWindowTest : PartModule
  */
 class MyWindow : Window<MyWindow>
 {
+    public LogHandler myHandler;
+
     // Use this class to store the current state of the UI
     public class UIStatus
     {
@@ -141,6 +151,7 @@ class MyWindow : Window<MyWindow>
         public bool ShowSecondWindow = false;   // Demo variable - can be removed. Holds state of Show Second Window toggle
     }
     public UIStatus uistatus = new UIStatus();
+
     public SecondWindow secondWindow;
 
     public MyWindow(string name, PartModule p = null)
@@ -150,19 +161,21 @@ class MyWindow : Window<MyWindow>
         windowPos = new Rect(60, 60, 400, 400);
     }
 
+    public delegate void LogHandler(string message);
+
+    public void Process(LogHandler logHandler)
+    {
+        if (logHandler != null)
+        {
+            logHandler("Hello!");
+        }
+    }
+
     // Called when UI is starting
     public void Start()
     {
         
     }
-
-    /*
-    // Allows a window to have a concept of an owning part
-    public void SetPart(Part p)
-    {
-        this.thisPart = p;
-    }
-    */
 
     protected override void DrawWindow()
     {
@@ -242,6 +255,7 @@ class MyWindow : Window<MyWindow>
         if (GUILayout.Button("Test"))
         {
             // How do I get this button to call DoSomething() ?
+            Process(myHandler);
         }
         // Stuff below the scroller behaves like a "Footer"
         uistatus.ShowOnStartup = GUILayout.Toggle(uistatus.ShowOnStartup, "Show on StartUp");
