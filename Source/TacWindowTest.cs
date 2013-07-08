@@ -57,8 +57,13 @@ public class TacWindowTest : PartModule
     public override void OnSave(ConfigNode node)
     {
         base.OnSave(node);
-        if (debug) Debug.Log("[TWT] OnSave fired");
-        mainWindow.Save(node);
+        // OnSave seems to fire in the Editor when you place the part or when you load a craft containing it
+        // Code bombs if mainwindow.Save called at this point
+        if (HighLogic.LoadedSceneIsFlight)
+        {
+            if (debug) Debug.Log("[TWT] OnSave fired");
+            mainWindow.Save(node);
+        }
     }
 
     // Fired once, when a scene starts containing the part
