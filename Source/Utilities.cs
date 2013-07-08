@@ -156,5 +156,23 @@ namespace Tac
                 return currentValue;
             }
         }
+
+        // Gets connected resources to a part. Note fuel lines are NOT reversible! Add flow going TO the constructing part!
+        public static List<PartResource> GetConnectedResources(Part part, String resourceName)
+        {
+            var resources = new List<PartResource>();
+            part.GetConnectedResources(PartResourceLibrary.Instance.GetDefinition(resourceName).id, resources);
+            // Do not return an empty list - if none of the resource found, create resource item and set amount to 0
+            Debug.Log("[TWT] RC: " + resources.Count.ToString());
+            if (resources.Count < 1)
+            {
+                PartResource p = new PartResource();
+                p.resourceName = resourceName;
+                p.amount = 0;
+                resources.Add(p);
+            }
+            return resources;
+        }
+
     }
 }

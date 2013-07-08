@@ -113,7 +113,7 @@ public class TacWindowTest : PartModule
     // =====================================================================================================================================================
     public void DoSomething()
     {
-        Debug.Log("HERE");
+        
     }
 
 }
@@ -175,7 +175,6 @@ class MyWindow : Window<MyWindow>
     protected override void ConfigureStyles()
     {
         base.ConfigureStyles();
-
         // Initialize your styles here (optional)
     }
 
@@ -202,13 +201,16 @@ class MyWindow : Window<MyWindow>
             uistatus.ContentScroller = GUILayout.BeginScrollView(uistatus.ContentScroller, alwaysShowHorizontal: false, alwaysShowVertical: true);
 
             // The "Body" of the scroller
-            GUILayout.Box("Content 1");
-            GUILayout.Box("Content 2");
-            GUILayout.Box("Content 3");
-            GUILayout.Box("Content 4");
-            GUILayout.Box("Content 5");
-            GUILayout.Box("Content 6");
-            GUILayout.Box("Content 7");
+            GUILayout.Box("Some resources on this craft:");
+            GUILayout.Box("Electric Charge: " + Utilities.GetConnectedResources(this.myPartModule.part, "ElectricCharge")[0].amount.ToString());
+            //GUILayout.Box("Liquid Fuel: " + Utilities.GetConnectedResources(this.myPartModule.part, "LiquidFuel")[0].amount.ToString());
+            //GUILayout.Box("Jet Fuel: " + Utilities.GetConnectedResources(this.myPartModule.part, "JetFuel")[0].amount.ToString());
+            GUILayout.Box("More content...");
+            GUILayout.Box("More content...");
+            GUILayout.Box("More content... scroll down for more tests ...");
+            GUILayout.Box("More content...");
+            GUILayout.Box("More content...");
+            GUILayout.Box("More content...");
             if (GUILayout.Button("Test"))
             {
                 // How do I get this button to call DoSomething() ?
