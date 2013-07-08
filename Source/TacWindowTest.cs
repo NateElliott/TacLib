@@ -74,16 +74,10 @@ public class TacWindowTest : PartModule
         mainWindow.SetVisible(mainWindow.uistatus.ShowOnStartup);
         // mainwindow is now passed all info it need to set up, so fire Start()
         //MyWindow.LogHandler myLogger = new MyWindow.LogHandler(Logger);
-        mainWindow.myHandler = new MyWindow.LogHandler(Logger);
+        mainWindow.testHandler = new MyWindow.TestHandler(DoSomething);
     }
 
     //public delegate void BuildHandler(string message);
-
-    static void Logger(string s)
-    {
-        Debug.Log(s);
-    }
-
 
     // Fires ?every frame? while the GUI is active
     public void OnGUI()
@@ -124,10 +118,11 @@ public class TacWindowTest : PartModule
     }
 
     // =====================================================================================================================================================
-    public void DoSomething()
+    static void DoSomething(string s)
     {
-        
+        Debug.Log("[TWT]: The Window said: " + s);
     }
+
 
 }
 
@@ -139,7 +134,7 @@ public class TacWindowTest : PartModule
  */
 class MyWindow : Window<MyWindow>
 {
-    public LogHandler myHandler;
+    public TestHandler testHandler;
 
     // Use this class to store the current state of the UI
     public class UIStatus
@@ -161,13 +156,13 @@ class MyWindow : Window<MyWindow>
         windowPos = new Rect(60, 60, 400, 400);
     }
 
-    public delegate void LogHandler(string message);
+    public delegate void TestHandler(string message);
 
-    public void Process(LogHandler logHandler)
+    public void Test(TestHandler myHandler)
     {
-        if (logHandler != null)
+        if (myHandler != null)
         {
-            logHandler("Hello!");
+            myHandler("Test Pressed!");
         }
     }
 
@@ -255,7 +250,7 @@ class MyWindow : Window<MyWindow>
         if (GUILayout.Button("Test"))
         {
             // How do I get this button to call DoSomething() ?
-            Process(myHandler);
+            Test(testHandler);
         }
         // Stuff below the scroller behaves like a "Footer"
         uistatus.ShowOnStartup = GUILayout.Toggle(uistatus.ShowOnStartup, "Show on StartUp");
