@@ -64,8 +64,10 @@ namespace Tac
             windowMouseDown = false;
             visible = false;
 
-            var texture = Utilities.LoadImage<T>(IOUtils.GetFilePathFor(typeof(T), "resize.png"));
-            resizeContent = (texture != null) ? new GUIContent(texture, "Drag to resize the window.") : new GUIContent("R", "Drag to resize the window.");
+            // Seems to break compile on monodevelop?
+            //var texture = Utilities.LoadImage<T>(IOUtils.GetFilePathFor(typeof(T), "resize.png"));
+            //resizeContent = (texture != null) ? new GUIContent(texture, "Drag to resize the window.") : new GUIContent("R", "Drag to resize the window.");
+            resizeContent = new GUIContent("R", "Drag to resize the window.");
         }
 
         public bool IsVisible()
